@@ -1,0 +1,49 @@
+type NewsTable @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  NewsDate: AWSDateTime
+  Language: String
+  Category: String
+  ReporterName: String
+  NewsTitle: String
+  NewsBody: String
+  Image: String
+  Video: String
+  RefLink1: String
+  RefLink2: String
+  RefLink3: String
+  isNewsActive: Boolean
+  Action: String
+  Comments: String
+}
+
+type NewsCategoryTable @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  LanguageName: String
+  Category: String
+  Image: String
+  Status: String
+  Action: String
+  Comments: String
+}
+
+type LanguageTable @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  LanguageName: String
+}
+
+type ReporterTable @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  FirstName: String
+  LastName: String
+  EmailID: String
+  MobileNumber: String
+  Status: Boolean
+  Action: String
+  JoiningDate: AWSDateTime
+  ActiveTime: AWSDateTime
+  InactiveTime: AWSDateTime
+  Comments: String
+  PrefferenLangugae: String
+  GovtIDType: String
+  GovtIDNumber: String
+}

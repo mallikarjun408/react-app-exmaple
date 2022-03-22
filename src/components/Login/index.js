@@ -1,43 +1,43 @@
-import * as React from 'react';
-import { Button, View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react'
+import { DataStore } from '@aws-amplify/datastore';
+import { ReporterTable } from '../../models';
+export default function Login() {
 
-function HomeScreen({ navigation }) {
+
+  const toggleTheme = async () => {
+
+    const mm = await DataStore.save(
+      new ReporterTable({
+        "FirstName": "Lorem ipsum dolor sit amet",
+        "LastName": "Lorem ipsum dolor sit amet",
+        "EmailID": "Lorem ipsum dolor sit amet",
+        "MobileNumber": "Lorem ipsum dolor sit amet",
+        "Status": true,
+        "Action": "Lorem ipsum dolor sit amet",
+        "JoiningDate": "1970-01-01T12:30:23.999Z",
+        "ActiveTime": "1970-01-01T12:30:23.999Z",
+        "InactiveTime": "1970-01-01T12:30:23.999Z",
+        "Comments": "Lorem ipsum dolor sit amet",
+        "PrefferenLangugae": "Lorem ipsum dolor sit amet",
+        "GovtIDType": "Lorem ipsum dolor sit amet",
+        "GovtIDNumber": "Lorem ipsum dolor sit amet"
+      })
+    );
+    alert(JSON.stringify(mm))
+  }
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
+    <div>
+
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {new Date().toLocaleTimeString()}.</h2>
+        <button
+          onClick={toggleTheme}
+        >
+          Toggle Theme
+        </button>
+      </div>
+
+    </div>
+  )
 }
-
-function DetailsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator();
-
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-export default App;
