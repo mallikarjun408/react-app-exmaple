@@ -1,0 +1,28 @@
+ .LoginContainer  {
+    padding: 10px;
+    background-color: red;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height:100vh;
+}
+.marginClass{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.inputClass{
+    border-radius: 5px;
+    border-color: blue;
+    background-color: white;
+    color: blue;
+    font-size: medium;
+    border-width: 1px;
+    height: 25px;
+}
+.btnClass{
+    padding: 5px 25px;
+    text-align: center;
+    height: 30px;
+}

@@ -1,13 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/Login/index';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import rootReducer from './redux/reducers/rootReducer';
+import {  BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
+import history from './router/history';
+
+
+
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
+const store = createStoreWithMiddleware(rootReducer);
+
+
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+ 
+   
+      <Provider store={store}>
+      <BrowserRouter>
+    
+        <App/>
+      
+        </BrowserRouter>
+      </Provider>,
+  
   document.getElementById('root')
 );
 

@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "api": {
+      "reactappexmaple": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    "storage": {
+      "NewsTable:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "NewsCategoryTable:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "LanguageTable:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "ReporterTable:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "reactApp",
+      "environmentVariableName": "reactApp"
+    }
+  ]
+}

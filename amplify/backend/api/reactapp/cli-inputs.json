@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/validateCredentials": {
+      "name": "/validateCredentials",
+      "lambdaFunction": "dataupdate",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

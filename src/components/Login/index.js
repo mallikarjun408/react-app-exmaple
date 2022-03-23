@@ -1,7 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DataStore } from '@aws-amplify/datastore';
 import { ReporterTable } from '../../models';
+import './login.css'
+
+
+
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../redux/actions/loginActions';
+
+import APIHandler from '../../network/APIHandler';
+// import { useNavigate } from 'react-router-dom';
+import history from '../../router/history';
+
+
 export default function Login() {
+
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  //let navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
 
   const toggleTheme = async () => {
@@ -25,19 +43,56 @@ export default function Login() {
     );
     alert(JSON.stringify(mm))
   }
+
+  const validateCredentials = () =>{
+    alert(userName + "    "+ password);
+    let credentials = {
+      userName:userName,
+      password: password
+    }
+    APIHandler.postData("login","POST",credentials,loginResponse);
+   
+  }
+
+  
+const loginResponse = (response, error) =>{
+  if(response){
+      alert(JSON.stringify(response));
+      dispatch(loginAction("loginAction",response));
+     // navigate('/Dashboard')
+     history.push('/Dashboard')
+  }else{
+      alert(error)
+  }
+}
+  const credentialView = () =>{
+
+    return(
+      <div className='LoginContainer'>
+        <input className='marginClass inputClass' type='email'
+          maxLength={20}
+          value={userName}
+          onChange={(e)=>{setUserName(e.target.value)}}></input>
+        <input className='marginClass inputClass' type='password'
+          value={password}
+          maxLength={20}
+          onChange={(e)=>{setPassword(e.target.value)}}></input>
+        <button className='marginClass inputClass btnClass'
+          onClick={()=>{validateCredentials()}}> Login
+
+        </button>
+      </div>
+    )
+  }
+
+
+
+
   return (
     <div>
 
-      <div>
-        <h1>Hello, world!</h1>
-        <h2>It is {new Date().toLocaleTimeString()}.</h2>
-        <button
-          onClick={toggleTheme}
-        >
-          Toggle Theme
-        </button>
-      </div>
-
+     
+     {credentialView()}
     </div>
   )
 }
