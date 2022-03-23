@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { loginAction } from '../../redux/actions/loginActions';
 
 import APIHandler from '../../network/APIHandler';
-// import { useNavigate } from 'react-router-dom';
+ import { useNavigate } from 'react-router-dom';
 import history from '../../router/history';
 
 
@@ -17,7 +17,7 @@ export default function Login() {
 
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  //let navigate = useNavigate();
+  let navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -45,13 +45,13 @@ export default function Login() {
   }
 
   const validateCredentials = () =>{
-    alert(userName + "    "+ password);
+    //alert(userName + "    "+ password);
     let credentials = {
       userName:userName,
       password: password
     }
-    
-    history.push('/Dashboard')
+    navigate('/Dashboard')
+   // history.push('/Dashboard')
    // APIHandler.postData("login","POST",credentials,loginResponse);
    
   }
