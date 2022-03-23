@@ -6,6 +6,9 @@
     align-items: center;
     display: flex;
     height:100vh;
+    background: url("../../assets/images/appbackground.jpg")   fixed;;
+    background-size:contain;
+    background: cover;
 }
 .marginClass{
     margin-top: 10px;
@@ -20,6 +23,7 @@
     font-size: medium;
     border-width: 1px;
     height: 25px;
+    padding-left: 10px;
 }
 .btnClass{
     padding: 5px 25px;
