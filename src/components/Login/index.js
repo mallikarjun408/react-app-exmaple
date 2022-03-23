@@ -50,7 +50,8 @@ export default function Login() {
       userName:userName,
       password: password
     }
-    APIHandler.postData("login","POST",credentials,loginResponse);
+    history.push('/Dashboard')
+   // APIHandler.postData("login","POST",credentials,loginResponse);
    
   }
 
