@@ -25,7 +25,7 @@ const menuItems = [
 
 export default function DashboardScreen() {
 
-  const [screenName, setScreenName] = useState('Reporters');
+  const [screenName, setScreenName] = useState('Dashboard');
 
 
   useEffect(() => { }, [screenName])
