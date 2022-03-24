@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { DataStore } from '@aws-amplify/datastore';
 import { ReporterTable } from '../../models';
+
+
+import Amplify, { a, API, graphqlOperation } from 'aws-amplify';
+import awsconfig from '../../aws-exports';
 import './login.css'
 
 
@@ -11,9 +15,14 @@ import { loginAction } from '../../redux/actions/loginActions';
 import APIHandler from '../../network/APIHandler';
  import { useNavigate } from 'react-router-dom';
 import history from '../../router/history';
+import { createLanguageTable } from '../../graphQLQuaries/mutations';
+
+
 
 
 export default function Login() {
+
+  Amplify.configure(awsconfig);
 
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -42,18 +51,28 @@ export default function Login() {
       })
     );
     alert(JSON.stringify(mm))
+
+
+    try {
+      const posts = await DataStore.query(ReporterTable);
+      console.log("Posts retrieved successfully!", JSON.stringify(posts, null, 2));
+    } catch (error) {
+      console.log("Error retrieving posts", error);
+    }
+
+   const rr = await API.graphql(graphqlOperation(createLanguageTable,{input:{LanguageName:"Telugu"}}))
+
+   alert(JSON.stringify(rr))
   }
 
   const validateCredentials = () =>{
-    //alert(userName + "    "+ password);
     let credentials = {
       userName:userName,
       password: password
     }
     navigate('/Dashboard')
-   // history.push('/Dashboard')
+    
    // APIHandler.postData("login","POST",credentials,loginResponse);
-   
   }
 
   

@@ -1,6 +1,6 @@
 import React from "react";
 import { Router, Routes, Route, BrowserRouter } from "react-router-dom";
-import Dashboard from "../components/Dashboard/index";
+import DashboardScreen from "../components/Dashboard/index";
 import Login from "../components/Login/index";
 import history from "./history";
 
@@ -11,7 +11,7 @@ import history from "./history";
         
             <Routes history={history}>
                 <Route path="/"  element={<Login/>} exact />
-                <Route path="/Dashboard" element={<Dashboard/>} />
+                <Route path="/Dashboard" element={<DashboardScreen/>} />
             </Routes>
                 
         )

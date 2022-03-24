@@ -1,10 +1,20 @@
-.header{
+.header {
     background-color: #FAF9F6;
     height: 100px;
-    align-self: flex-start;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-bottom: gray;
+
+
+
+    border-bottom: blue;
     border-width: 1px;
+}
+
+.floatLeft {
+    float: left;
+    height: 100px;
+
+}
+
+.floatRight {
+    float: right;
+    height: 100px;
 }

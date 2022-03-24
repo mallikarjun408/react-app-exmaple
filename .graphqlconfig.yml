@@ -1,0 +1,18 @@
+projects:
+  reactappexmaple:
+    schemaPath: amplify/backend/api/reactappexmaple/build/schema.graphql
+    includes:
+      - graphQLQuaries.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: .
+        region: us-west-2
+        apiId: null
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3
