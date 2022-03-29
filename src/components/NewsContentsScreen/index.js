@@ -39,7 +39,6 @@ export default function NewsContentScreen() {
         <div className="Container">
              <div className="addButton"> <button onClick={()=>{alert('add new news')}}>Add News</button></div>
             <div className="InnerContainer">
-           
                 <header className="HeaderContainer"> News List
                     <div className="floatRight">
                         {numSelected > 0 ? (
