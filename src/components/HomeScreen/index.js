@@ -1,5 +1,5 @@
 import React from "react";
-
+import  "./home.css";
 
 export default function HomeScreen() {
 
@@ -7,7 +7,7 @@ export default function HomeScreen() {
 
     return(
         <>
-        List of HomeScreen list here
+        <div class="BackgroundContainer"></div>
         </>
     )
 }
