@@ -16,7 +16,8 @@ const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'language', headerName: 'Language', width: 160 },
     { field: 'category', headerName: 'Script', width: 160 },
-    { field: 'image', headerName: 'Action', description: '', sortable: false, width: 160 },
+
+    { field: 'image', headerName: 'Image', image: "image URL", type: 'image', description: '', sortable: false, width: 160 },
     { field: 'status', headerName: 'Status', description: '', sortable: false, width: 160 },
     { field: 'action', headerName: 'Action', description: '', sortable: false, width: 160 },
 ];

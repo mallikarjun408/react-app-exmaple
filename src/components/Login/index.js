@@ -3,7 +3,7 @@ import { DataStore } from '@aws-amplify/datastore';
 import { ReporterTable } from '../../models';
 
 
-import Amplify, { a, API, graphqlOperation } from 'aws-amplify';
+import Amplify, {  API, graphqlOperation } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import './login.css'
 
