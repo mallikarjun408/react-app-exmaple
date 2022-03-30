@@ -28,7 +28,12 @@ export default function DashboardScreen() {
   const [screenName, setScreenName] = useState('Dashboard');
 
 
-  useEffect(() => { }, [screenName])
+  useEffect(() => {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event) {
+      window.history.pushState(null, document.title, window.location.href);
+    });
+  })
 
   const onTapRenderScreen = () => {
     switch (screenName) {
@@ -53,7 +58,7 @@ export default function DashboardScreen() {
   const renderListItems = () => {
     const listItems = menuItems.map((item) =>
       <><ListItem disablePadding key={item.item}>
-        <ListItemButton onClick={() => {setScreenName(item.item); }}>
+        <ListItemButton onClick={() => { setScreenName(item.item); }}>
           <ListItemIcon>
             <item.icon />
           </ListItemIcon>

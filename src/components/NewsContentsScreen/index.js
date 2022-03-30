@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import AddNews from "./AddNews";
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -33,11 +34,15 @@ const rows = [
 export default function NewsContentScreen() {
 
     const [numSelected, setNumSelected] = useState(0);
+    const [addNews, setAddNews] = useState(false);
 
+    const onSubmitAddNews = (val) => {
+        setAddNews(val);
+    }
 
     return (
         <div className="Container">
-             <div className="addButton"> <button onClick={()=>{alert('add new news')}}>Add News</button></div>
+            <div className="addButton"> <button onClick={() => { setAddNews(true) }}>Add News</button></div>
             <div className="InnerContainer">
                 <header className="HeaderContainer"> News List
                     <div className="floatRight">
@@ -57,7 +62,7 @@ export default function NewsContentScreen() {
                     </div>
 
                 </header>
-                <DataGrid
+                {!addNews ? <DataGrid
                     className="gridWidth"
                     rows={rows}
                     columns={columns}
@@ -67,7 +72,7 @@ export default function NewsContentScreen() {
                     hideFooterSelectedRowCount
                     onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
                 // onCellClick={(param) => { alert(alert(param.row.lastName)) }}
-                />
+                /> : <AddNews onSubmitAddNews = {onSubmitAddNews}></AddNews>}
             </div>
 
 

@@ -58,6 +58,7 @@ export default function ReportersScreen() {
 
     return (
         <div className="Container">
+             <div className="addButton"> <button onClick={()=>{alert('add new news')}}>Add Reporter</button></div>
             <div className="InnerContainer">
                 <header className="HeaderContainer"> Reporters List
                     <div className="floatRight">

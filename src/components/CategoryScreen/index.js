@@ -6,6 +6,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import AddCategory from './AddCategory';
+
+
+import { Modal } from "@mui/material";
+import { Box } from "@mui/system";
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -28,11 +33,28 @@ const rows = [
 
 export default function CategoryScreen() {
 
-    const [numSelected, setNumSelected] = useState(0);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        bgcolor: 'white',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
+    const [numSelected, setNumSelected] = useState(0);
+    const [addCategory, setAddCategory] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (value) => {
+        setOpen(value)
+    }
 
     return (
         <div className="Container">
+            <div className="addButton"> <button onClick={() => { setOpen(true) }}>Add Category</button></div>
             <div className="InnerContainer">
                 <header className="HeaderContainer"> Languages List
                     <div className="floatRight">
@@ -52,7 +74,7 @@ export default function CategoryScreen() {
                     </div>
 
                 </header>
-                <DataGrid
+                {!addCategory ? <DataGrid
                     className="gridWidth"
                     rows={rows}
                     columns={columns}
@@ -62,7 +84,22 @@ export default function CategoryScreen() {
                     hideFooterSelectedRowCount
                     onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
                 // onCellClick={(param) => { alert(alert(param.row.lastName)) }}
-                />
+                /> : <AddCategory />}
+
+
+
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                >
+
+                    <Box sx={style}>
+                        <AddCategory handleClose={handleClose} />
+                    </Box>
+                </Modal>
+
             </div>
 
 
