@@ -1,7 +1,5 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import { createLanguageTable, deleteLanguageTable, updateLanguageTable } from '../../graphQLQuaries/mutations';
-import { DataStore } from '@aws-amplify/datastore';
-import { LanguageTable } from '../../models';
 
 
 export const addLanguagesAction = async (languageObject) => {
