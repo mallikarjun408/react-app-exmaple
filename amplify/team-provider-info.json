@@ -22,6 +22,12 @@
         "inserNewsLambda": {
           "deploymentBucketName": "amplify-amplify20f5cffe2b634-staging-220126-deployment",
           "s3Key": "amplify-builds/inserNewsLambda-66656373464636454b56-build.zip"
+        },
+        "April032022": {
+          "serviceUrl": "https://example.com",
+          "secretsPathAmplifyAppId": "d2pugb7ctkajjz",
+          "deploymentBucketName": "amplify-amplify20f5cffe2b634-staging-220126-deployment",
+          "s3Key": "amplify-builds/April032022-45796b304f4b39376155-build.zip"
         }
       },
       "auth": {
