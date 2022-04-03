@@ -159,6 +159,8 @@ export const createLanguageTable = /* GraphQL */ `
     createLanguageTable(input: $input, condition: $condition) {
       id
       LanguageName
+      SampleScript
+      ActiveStatus
       createdAt
       updatedAt
       _version
@@ -175,6 +177,8 @@ export const updateLanguageTable = /* GraphQL */ `
     updateLanguageTable(input: $input, condition: $condition) {
       id
       LanguageName
+      SampleScript
+      ActiveStatus
       createdAt
       updatedAt
       _version
@@ -191,6 +195,8 @@ export const deleteLanguageTable = /* GraphQL */ `
     deleteLanguageTable(input: $input, condition: $condition) {
       id
       LanguageName
+      SampleScript
+      ActiveStatus
       createdAt
       updatedAt
       _version

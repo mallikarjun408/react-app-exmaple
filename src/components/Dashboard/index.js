@@ -25,6 +25,10 @@ const menuItems = [
 
 export default function DashboardScreen() {
 
+  const  listItemSelected = {
+      color: 'red',
+    }
+
   const [screenName, setScreenName] = useState('Dashboard');
 
 
@@ -57,8 +61,8 @@ export default function DashboardScreen() {
 
   const renderListItems = () => {
     const listItems = menuItems.map((item) =>
-      <><ListItem disablePadding key={item.item}>
-        <ListItemButton onClick={() => { setScreenName(item.item); }}>
+      <div  key={item.item}><ListItem   key={item.item} className={screenName == item.item ? 'listItemSelectedColor' : 'listItemColor'} disablePadding key={item.item}>
+        <ListItemButton   onClick={() => { setScreenName(item.item); }}>
           <ListItemIcon>
             <item.icon />
           </ListItemIcon>
@@ -66,7 +70,7 @@ export default function DashboardScreen() {
         </ListItemButton>
       </ListItem>
         <Divider />
-      </>
+      </div>
     );
     return (
       <List>

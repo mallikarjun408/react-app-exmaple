@@ -1,9 +1,6 @@
 .header {
     background-color: #FAF9F6;
     height: 100px;
-
-
-
     border-bottom: blue;
     border-width: 1px;
 }
@@ -17,4 +14,10 @@
 .floatRight {
     float: right;
     height: 100px;
+}
+.listItemColor{
+background-color: lightgray;
+}
+.listItemSelectedColor{
+    background-color: gray;
 }

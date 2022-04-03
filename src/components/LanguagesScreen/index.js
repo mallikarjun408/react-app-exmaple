@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./languages.css"
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -11,14 +11,20 @@ import Tooltip from '@mui/material/Tooltip';
 import { Modal } from "@mui/material";
 import { Box } from "@mui/system";
 import AddLanguage from "./AddLanguage";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLanguagesAction } from "../../redux/actions/languagesActions";
+import { DataStore } from '@aws-amplify/datastore';
+import { LanguageTable } from '../../models';
+
+
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'language', headerName: 'Language', width: 160 },
-    { field: 'samplescript', headerName: 'Script', width: 160 },
+    { field: 'LanguageName', headerName: 'Language', width: 160 },
+    { field: 'SampleScript', headerName: 'Script', width: 160 },
 
     {
-        field: 'status',
+        field: 'ActiveStatus',
         headerName: 'Status',
         description: '',
         sortable: false,
@@ -34,8 +40,8 @@ const columns = [
 ];
 
 const rows = [
-    { id: 1, language: 'English', samplescript: 'Abcd', status: 'active', action: 'edit' },
-    { id: 2, language: 'Telugu', samplescript: 'తెలుగు అక్షరమాల (లేదా) వర్ణమాల', status: 'active', action: 'edit' },
+    { id: 1, LanguageName: 'English', SampleScript: 'Abcd', ActiveStatus: 'active', action: 'edit' },
+    { id: 2, LanguageName: 'Telugu', SampleScript: 'తెలుగు అక్షరమాల (లేదా) వర్ణమాల', ActiveStatus: 'active', action: 'edit' },
 
 ];
 
@@ -50,12 +56,34 @@ export default function LanguagesScreen() {
         bgcolor: 'white',
         border: '2px solid #000',
         boxShadow: 24,
+        width:'50%',
         p: 4,
     };
 
     const [numSelected, setNumSelected] = useState(0);
 
     const [open, setOpen] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const languageReducer = useSelector(state=>state.LanguageReducer)
+    const languagesList = languageReducer?.languagesResponse
+
+    const [languages, setLanguages] = useState(languagesList || rows)
+
+    useEffect(()=>{
+        //dispatch(fetchLanguagesAction)
+        fetchLanguages()
+        
+    },[open])
+
+    const fetchLanguages = async() =>{
+        const response = await DataStore.query(LanguageTable);
+       console.log(response)
+        dispatch({ type: "fetchLanguagesAction", payload: response })
+        response.map(i=>console.log(i.LanguageName));
+        setLanguages(response)
+    }
 
     const handleClose = (value) => {
         setOpen(value)
@@ -85,7 +113,7 @@ export default function LanguagesScreen() {
                 </header>
                 <DataGrid
                     className="gridWidth"
-                    rows={rows}
+                    rows={languages}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}

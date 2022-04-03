@@ -59,6 +59,8 @@ export declare class NewsCategoryTable {
 export declare class LanguageTable {
   readonly id: string;
   readonly LanguageName?: string | null;
+  readonly SampleScript?: string | null;
+  readonly ActiveStatus?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<LanguageTable, LanguageTableMetaData>);

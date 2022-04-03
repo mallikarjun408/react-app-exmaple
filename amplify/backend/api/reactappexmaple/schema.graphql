@@ -29,6 +29,8 @@ type NewsCategoryTable @model @auth(rules: [{allow: public}]) {
 type LanguageTable @model @auth(rules: [{allow: public}]) {
   id: ID!
   LanguageName: String
+  SampleScript: String
+  ActiveStatus: Boolean
 }
 
 type ReporterTable @model @auth(rules: [{allow: public}]) {

@@ -4,18 +4,22 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './redux/reducers/rootReducer';
 import {  BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
-import history from './router/history';
 
-
+import thunk from 'redux-thunk'
 
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
-const store = createStoreWithMiddleware(rootReducer);
+//const store = createStoreWithMiddleware(rootReducer);
 
-
+const store = createStore(
+  rootReducer, // your reducers
+  compose(
+    applyMiddleware(thunk)
+  )
+)
 
 
 ReactDOM.render(

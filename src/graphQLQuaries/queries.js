@@ -186,6 +186,8 @@ export const getLanguageTable = /* GraphQL */ `
     getLanguageTable(id: $id) {
       id
       LanguageName
+      SampleScript
+      ActiveStatus
       createdAt
       updatedAt
       _version
@@ -204,6 +206,8 @@ export const listLanguageTables = /* GraphQL */ `
       items {
         id
         LanguageName
+        SampleScript
+        ActiveStatus
         createdAt
         updatedAt
         _version
@@ -231,6 +235,8 @@ export const syncLanguageTables = /* GraphQL */ `
       items {
         id
         LanguageName
+        SampleScript
+        ActiveStatus
         createdAt
         updatedAt
         _version

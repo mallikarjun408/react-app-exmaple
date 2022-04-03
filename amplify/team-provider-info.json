@@ -25,7 +25,8 @@
         }
       },
       "auth": {
-        "undefined": {}
+        "undefined": {},
+        "reactappexmaple": {}
       }
     }
   }

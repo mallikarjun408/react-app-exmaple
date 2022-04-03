@@ -7,7 +7,7 @@ export default function HomeScreen() {
 
     return(
         <>
-        <div class="BackgroundContainer"></div>
+        <div className="BackgroundContainer"></div>
         </>
     )
 }
