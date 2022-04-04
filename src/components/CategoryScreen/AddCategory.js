@@ -3,18 +3,76 @@ import "./category.css";
 
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import S3 from 'react-aws-s3';
+import { Storage } from 'aws-amplify';
+import { uploadFile } from 'react-s3';
+import S3FileUpload from 'react-s3';
+window.Buffer = window.Buffer || require("buffer").Buffer;
+
+
 
 const options = [
     'one', 'two', 'three'
 ];
 
-export default function AddCategory({handleClose}) {
+export default function AddCategory({ handleClose }) {
+
+
+    const config = {
+        bucketName: 'allinonefilestorage',
+        dirName: 'photos', /* optional */
+        region: 'us-west-2',
+        accessKeyId: 'AKIA27KEEEVN6LTOKJQL',
+        secretAccessKey: '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',
+    }
 
     const defaultOption = 0;
     const [title, setTitle] = useState("");
     const [newsContent, setNewsContent] = useState("");
-   
+
     const inputFile = useRef(<img />)
+
+    const onChange = (e) => {
+        const file = e.target.files[0];
+
+        /* S3FileUpload.uploadFile(file, config)
+            .then((data) => {
+                console.log(data.location);
+            }).catch((err) => {
+                alert(err);
+            }) */
+
+          return new Promise((resolve, reject) => {
+             Storage.put("image.png", file, {
+               contentType: "image/*",
+               contentEncoding: 'base64',
+             })
+               .then((result) => {
+                 console.log('File successfully uploaded to s3', result);
+                 resolve(true);
+               })
+               .catch((err) => {
+                 // setError({
+                 //   show: true,
+                 //   errorMsg: InstitutionBuilderDict[userLanguage]['messages']['uploaderr'],
+                 // });
+                 console.log('Error in uploading file to s3', err);
+                 reject(err);
+               });
+           }); 
+
+       /*  const ReactS3Client = new S3(config);
+
+        const newFileName = 'test-file.png';
+
+        ReactS3Client
+            .uploadFile(file, newFileName)
+            .then(data =>{ console.log(data); alert(data)})
+            .catch(err => {console.error(err); alert("fail "+err)}) */
+
+
+
+    }
 
 
     const showPreview = (event) => {
@@ -40,16 +98,16 @@ export default function AddCategory({handleClose}) {
             </div>
             <div className="titleContainer">
                 <label className="labelStyle"> Choose File</label>
-                <input type='file' id='file' accept="image/*" onInput={showPreview} />
+                <input type='file' id='file' accept="image/*" onInput={showPreview} onChange={(e) => onChange(e)} />
             </div>
             <div className="titleContainer">
-                <img ref={inputFile} id="file-ip-1-preview" width={150} height={150} style={{ marginTop: 10   }} />
+                <img ref={inputFile} id="file-ip-1-preview" width={150} height={150} style={{ marginTop: 10 }} />
             </div>
             <div>
                 <button className="buttonStyle btnClose" onClick={() => { handleClose(false) }}> Close </button>
                 <button className="buttonStyle btnSubmit" onClick={() => { alert('submitted') }}> Submit </button>
             </div>
-            
+
         </div >
     )
 }

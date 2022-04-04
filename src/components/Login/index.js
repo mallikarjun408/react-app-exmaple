@@ -19,12 +19,13 @@ import { createLanguageTable } from '../../graphQLQuaries/mutations';
 
 import * as queries from '../../graphQLQuaries/queries';
 
-
-
+import { Storage } from "@aws-amplify/storage"
 
 export default function Login() {
 
   Amplify.configure(awsconfig);
+  
+
 
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -81,7 +82,9 @@ export default function Login() {
     console.log(allTodos);  */
 
 
-    navigate('/Dashboard')
+   navigate('/Dashboard')
+
+
 /* 
     try {
     const posts = await DataStore.query(LanguageTable);

@@ -27,7 +27,7 @@
           "serviceUrl": "https://example.com",
           "secretsPathAmplifyAppId": "d2pugb7ctkajjz",
           "deploymentBucketName": "amplify-amplify20f5cffe2b634-staging-220126-deployment",
-          "s3Key": "amplify-builds/April032022-45796b304f4b39376155-build.zip"
+          "s3Key": "amplify-builds/April032022-702b4f57446d5a794139-build.zip"
         }
       },
       "auth": {

@@ -1,0 +1,16 @@
+{
+  "resourceName": "fileStorage",
+  "policyUUID": "e770eb88",
+  "bucketName": "allinonefilestorage",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "inserNewsLambda",
+  "groupAccess": {}
+}
