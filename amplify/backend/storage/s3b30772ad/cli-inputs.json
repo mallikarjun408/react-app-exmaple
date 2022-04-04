@@ -1,0 +1,17 @@
+{
+  "resourceName": "s3b30772ad",
+  "policyUUID": "b30772ad",
+  "bucketName": "reactappexmaple616560b50f464a73b2a4975fff20b069",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

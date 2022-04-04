@@ -9,7 +9,11 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from './redux/reducers/rootReducer';
 import {  BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
 
+
+
 import thunk from 'redux-thunk'
+import Amplify from 'aws-amplify';
+import config from './aws-exports'
 
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 //const store = createStoreWithMiddleware(rootReducer);
@@ -21,6 +25,7 @@ const store = createStore(
   )
 )
 
+Amplify.configure(config);
 
 ReactDOM.render(
  

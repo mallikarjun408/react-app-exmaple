@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "reactappexmaple_identitypool_8b07d8b1",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "reacta8b07d8b1",
     "userPoolName": "reactappexmaple_userpool_8b07d8b1",
     "autoVerifiedAttributes": [

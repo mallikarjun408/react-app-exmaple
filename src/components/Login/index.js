@@ -23,7 +23,7 @@ import { Storage } from "@aws-amplify/storage"
 
 export default function Login() {
 
-  Amplify.configure(awsconfig);
+  //Amplify.configure(awsconfig);
   
 
 
@@ -81,6 +81,23 @@ export default function Login() {
     alert(allTodos)
     console.log(allTodos);  */
 
+
+ 
+
+
+/*  const list = await Storage.list('')
+
+ const images = await Promise.all(list.map(async k =>{
+   const signedUrl = await Storage.get(k.key)
+   return signedUrl
+ }))
+
+ console.log(images)
+  
+console.log("image list",list) */
+  /* const response =  await Storage.put('test.txt', 'Private Content');
+
+console.log(response)   */
 
    navigate('/Dashboard')
 
