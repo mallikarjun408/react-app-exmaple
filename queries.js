@@ -107,6 +107,7 @@ export const getNewsCategoryTable = /* GraphQL */ `
       id
       LanguageName
       Category
+      SampleScript
       Image
       Status
       Action
@@ -134,6 +135,7 @@ export const listNewsCategoryTables = /* GraphQL */ `
         id
         LanguageName
         Category
+        SampleScript
         Image
         Status
         Action
@@ -166,6 +168,7 @@ export const syncNewsCategoryTables = /* GraphQL */ `
         id
         LanguageName
         Category
+        SampleScript
         Image
         Status
         Action

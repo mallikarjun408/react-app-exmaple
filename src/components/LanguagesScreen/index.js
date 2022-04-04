@@ -81,7 +81,7 @@ export default function LanguagesScreen() {
         const response = await DataStore.query(LanguageTable);
        console.log(response)
         dispatch({ type: "fetchLanguagesAction", payload: response })
-        response.map(i=>console.log(i.LanguageName));
+       // response.map(i=>console.log(i.LanguageName));
         setLanguages(response)
     }
 

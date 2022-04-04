@@ -1,13 +1,16 @@
 
 const INITIAL_STATE = {
-    loginResponse:null
+    categoryResponse: null
 }
-export const CategoryReducer = (state = INITIAL_STATE, action) =>{
+export const CategoryReducer = (state = INITIAL_STATE, action) => {
     let newState = {}
 
-    switch(action.type) {
-        case "loginResponse":
-            newState = Object.assign({}, state,action.payload);
+    switch (action.type) {
+        case "addCategory":
+            newState = Object.assign({}, state, action.payload);
+            return newState;
+        case "fetchCategory":
+            newState = Object.assign({}, state, action.payload);
             return newState;
         default:
             return state || newState;

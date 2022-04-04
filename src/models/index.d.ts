@@ -46,6 +46,7 @@ export declare class NewsCategoryTable {
   readonly id: string;
   readonly LanguageName?: string | null;
   readonly Category?: string | null;
+  readonly SampleScript?: string | null;
   readonly Image?: string | null;
   readonly Status?: string | null;
   readonly Action?: string | null;

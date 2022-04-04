@@ -15,6 +15,9 @@ import SubCategoriesScreen from '../SubCategoriesScreen';
 import ReportersScreen from '../ReportersScreen';
 import HomeScreen from '../HomeScreen';
 import NewsContentsScreen from '../NewsContentsScreen';
+
+
+
 const menuItems = [
   { item: 'Dashboard', icon: Home },
   { item: 'Reporters', icon: Person },
@@ -31,13 +34,15 @@ export default function DashboardScreen() {
 
   const [screenName, setScreenName] = useState('Dashboard');
 
-
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
     window.addEventListener('popstate', function (event) {
       window.history.pushState(null, document.title, window.location.href);
-    });
+    },[screenName]);
+    
+    console.log('Dashboard loading......')
   })
+
 
   const onTapRenderScreen = () => {
     switch (screenName) {

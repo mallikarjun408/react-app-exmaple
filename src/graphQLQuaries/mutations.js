@@ -97,6 +97,7 @@ export const createNewsCategoryTable = /* GraphQL */ `
       id
       LanguageName
       Category
+      SampleScript
       Image
       Status
       Action
@@ -118,6 +119,7 @@ export const updateNewsCategoryTable = /* GraphQL */ `
       id
       LanguageName
       Category
+      SampleScript
       Image
       Status
       Action
@@ -139,6 +141,7 @@ export const deleteNewsCategoryTable = /* GraphQL */ `
       id
       LanguageName
       Category
+      SampleScript
       Image
       Status
       Action

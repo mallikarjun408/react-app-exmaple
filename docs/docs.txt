@@ -1,0 +1,6 @@
+// S3 upload
+
+https://www.youtube.com/watch?v=LWhnS5elz4o
+
+
+// change, update, delete table columns (fields)  update schema at schema.graphql and do amplify push command

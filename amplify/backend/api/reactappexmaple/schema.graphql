@@ -20,6 +20,7 @@ type NewsCategoryTable @model @auth(rules: [{allow: public}]) {
   id: ID!
   LanguageName: String
   Category: String
+  SampleScript: String
   Image: String
   Status: String
   Action: String

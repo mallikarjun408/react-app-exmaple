@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./category.css"
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -11,24 +11,21 @@ import AddCategory from './AddCategory';
 
 import { Modal } from "@mui/material";
 import { Box } from "@mui/system";
+import { DataStore } from "aws-amplify";
+import { NewsCategoryTable } from "../../models";
+import { useDispatch, useSelector } from "react-redux";
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'language', headerName: 'Language', width: 160 },
-    { field: 'category', headerName: 'Script', width: 160 },
-
-    { field: 'image', headerName: 'Image', image: "image URL", type: 'image', description: '', sortable: false, width: 160 },
-    { field: 'status', headerName: 'Status', description: '', sortable: false, width: 160 },
-    { field: 'action', headerName: 'Action', description: '', sortable: false, width: 160 },
+    { field: 'LanguageName', headerName: 'Language', width: 160 },
+    { field: 'Category', headerName: 'Category', width: 160 },
+    { field: 'Image', headerName: 'Image', image: "image URL", type: 'image', description: '', sortable: false, width: 160 , renderCell: (params) => <img src={params.value} />},
+    { field: 'SampleScript', headerName: 'SampleScript', description: '', sortable: false, width: 160 },
+    { field: 'Status', headerName: 'Status', description: '', sortable: false, width: 160 },
 ];
 
 const rows = [
-    { id: 1, language: 'English', category: 'Politics', image: '', status: 'active', action: 'edit' },
-    { id: 2, language: 'English', category: 'Sports', image: '', status: 'active', action: 'edit' },
-    { id: 3, language: 'English', category: 'Entertainment', image: '', status: 'active', action: 'edit' },
-    { id: 4, language: 'Telugu', category: 'రాజకీయాలు', image: '', status: 'active', action: 'edit' },
-    { id: 5, language: 'Telugu', category: 'క్రీడలు', image: '', status: 'active', action: 'edit' },
-    { id: 6, language: 'Telugu', category: 'వినోదం', image: '', status: 'active', action: 'edit' },
+    { id: 1, LanguageName: 'English', Category: 'Politics', Image: '', SampleScript: '', Status: 'active' },
 ];
 
 
@@ -42,12 +39,33 @@ export default function CategoryScreen() {
         bgcolor: 'white',
         border: '2px solid #000',
         boxShadow: 24,
+        width: '50%',
+        height: '75%',
         p: 4,
     };
 
     const [numSelected, setNumSelected] = useState(0);
     const [addCategory, setAddCategory] = useState(false);
     const [open, setOpen] = useState(false);
+
+    const categoryReducer = useSelector(state => state.CategoryReducer)
+    const categories = categoryReducer?.categoryResponse
+    const [categoryList, setCategoryList] = useState(categories || rows)
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        fetchCategoryList()
+    }, [open])
+
+    const fetchCategoryList = async () => {
+        console.log("fetchCategoryList .....")
+        const response = await DataStore.query(NewsCategoryTable);
+        console.log(response)
+        dispatch({ type: "fetchCategory", payload: response })
+        // response.map(i=>console.log(i.LanguageName));
+        setCategoryList(response)
+    }
 
     const handleClose = (value) => {
         setOpen(value)
@@ -77,7 +95,7 @@ export default function CategoryScreen() {
                 </header>
                 {!addCategory ? <DataGrid
                     className="gridWidth"
-                    rows={rows}
+                    rows={categoryList}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}

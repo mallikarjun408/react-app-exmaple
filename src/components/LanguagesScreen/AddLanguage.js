@@ -24,10 +24,10 @@ export default function AddLanguage({ handleClose }) {
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{
+   /*  useEffect(()=>{
         Amplify.configure(awsconfig)
     })
-
+ */
 
     const addLanguageSubmit = async() => {
 

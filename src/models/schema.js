@@ -174,6 +174,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "SampleScript": {
+                    "name": "SampleScript",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "Image": {
                     "name": "Image",
                     "isArray": false,
@@ -463,5 +470,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "5dfbec5e0ddac157dac9796175c6a2d2"
+    "version": "c91daf0dd25327e110fb5e9927c609b6"
 };
