@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./newscontents.css"
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -8,41 +8,90 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import AddNews from "./AddNews";
 
-const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'newsDate', headerName: 'News Date', width: 160 },
-    { field: 'language', headerName: 'Language', width: 160 },
-    { field: 'category', headerName: 'Script', width: 160 },
-    { field: 'reporter', headerName: 'Reporter', width: 160 },
-    { field: 'contenttype', headerName: 'Content Type', width: 160 },
-    { field: 'title', headerName: 'Title', width: 160 },
-    { field: 'desc', headerName: 'Description', width: 160 },
-    { field: 'image', headerName: 'Image', width: 160 },
-    { field: 'video', headerName: 'Video', width: 160 },
-    { field: 'status', headerName: 'Status', description: '', sortable: false, width: 160 },
-    { field: 'action', headerName: 'Action', description: '', sortable: false, width: 160 },
-];
+import { Storage } from "@aws-amplify/storage"
+import { DataStore } from "aws-amplify";
+import { NewsTable } from "../../models";
+import { useDispatch, useSelector } from "react-redux";
+import { getNewsTable } from "../../graphQLQuaries/queries";
+
+import { API, graphqlOperation } from "aws-amplify";
+
 
 const rows = [
-    { id: 1, newsDate: '28/03/2022', language: 'English', category: 'Politics', reporter: 'xxxx', contenttype: 'image', title: 'Title', desc: 'Description', image: '', video: '', status: 'active', action: 'edit' },
-    { id: 2, newsDate: '28/03/2022', language: 'English', category: 'Politics', reporter: 'xxxx', contenttype: 'image', title: 'Title', desc: 'Description', image: '', video: '', status: 'active', action: 'edit' },
-    { id: 3, newsDate: '28/03/2022', language: 'English', category: 'Politics', reporter: 'xxxx', contenttype: 'image', title: 'Title', desc: 'Description', image: '', video: '', status: 'active', action: 'edit' },
-    { id: 4, newsDate: '28/03/2022', language: 'English', category: 'Politics', reporter: 'xxxx', contenttype: 'image', title: 'Title', desc: 'Description', image: '', video: '', status: 'active', action: 'edit' },
 ];
+
 
 
 export default function NewsContentScreen() {
 
-    const [numSelected, setNumSelected] = useState(0);
-    const [addNews, setAddNews] = useState(false);
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'NewsDate', headerName: 'News Date', width: 160, },
+        { field: 'Language', headerName: 'Language', width: 160 },
+        { field: 'Category', headerName: 'Script', width: 160 },
+        { field: 'ReporterName', headerName: 'Reporter', width: 160 },
+        { field: 'ContentType', headerName: 'Content Type', width: 160 },
+        { field: 'NewsTitle', headerName: 'Title', width: 160 },
+        { field: 'NewsBody', headerName: 'Description', width: 160 },
+        { field: 'Image', headerName: 'Image', width: 160, renderCell: (params) => <img src={imgList[params.value]}></img> },
+        { field: 'Video', headerName: 'Video', width: 160 },
+        { field: 'RefLink1', headerName: 'RefLink1', description: '', sortable: false, width: 160 },
+        { field: 'RefLink2', headerName: 'RefLink2', description: '', sortable: false, width: 160 },
+        { field: 'RefLink3', headerName: 'RefLink3', description: '', sortable: false, width: 160 },
+        { field: 'isNewsActive', headerName: 'isActive', description: '', sortable: false, width: 160 },
+    ];
 
-    const onSubmitAddNews = (val) => {
-        setAddNews(val);
+
+    const [numSelected, setNumSelected] = useState(0);
+    const [addNewsWidget, setAddNewsWidget] = useState(false);
+
+    const newsReducer = useSelector(state => state.NewsContentReducer)
+    const newsData = newsReducer?.newsResponse
+    const [newsList, setNewsList] = useState(newsData || [])
+    const dispatch = useDispatch()
+    const mJson = {};
+    const [ imgList, setImageList] = useState(mJson)
+
+    useEffect(() => {
+        fetchNewsList()
+    }, [addNewsWidget])
+
+    const fetchNewsList = async () => {
+        console.log("fetchNewsList .....")
+        const response = await DataStore.query(NewsTable);
+         console.log(response)
+        dispatch({ type: "newsResponse", payload: response })
+        // response.map(i=>console.log(i.LanguageName));
+        response.map(async(item,index) => {
+            console.log(item)
+            const img = item.Image;
+            const url = await Storage.get(img)
+            mJson[""+img] = url
+
+            if(index == response.length-1){
+                setImageList(mJson)
+            }
+            
+        })
+
+
+        setNewsList(response)
     }
+
+    const btnCloseAddNewsWidget = () => {
+        setAddNewsWidget(false);
+    }
+    const fetImage = async (fileName) => {
+        //  const upload = await Storage.put(fileName, filePath)
+        const signedUrl = await Storage.get(fileName)
+        return signedUrl
+    }
+
+
 
     return (
         <div className="Container">
-            <div className="addButton"> <button onClick={() => { setAddNews(true) }}>Add News</button></div>
+            <div className="addButton"> <button onClick={() => { setAddNewsWidget(true) }}>Add News</button></div>
             <div className="InnerContainer">
                 <header className="HeaderContainer"> News List
                     <div className="floatRight">
@@ -62,9 +111,9 @@ export default function NewsContentScreen() {
                     </div>
 
                 </header>
-                {!addNews ? <DataGrid
+                {!addNewsWidget ? <DataGrid
                     className="gridWidth"
-                    rows={rows}
+                    rows={newsList}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
@@ -72,7 +121,7 @@ export default function NewsContentScreen() {
                     hideFooterSelectedRowCount
                     onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
                 // onCellClick={(param) => { alert(alert(param.row.lastName)) }}
-                /> : <AddNews onSubmitAddNews = {onSubmitAddNews}></AddNews>}
+                /> : <AddNews closeNewsWidget={btnCloseAddNewsWidget}></AddNews>}
             </div>
 
 

@@ -1,12 +1,12 @@
 
 const INITIAL_STATE = {
-    loginResponse:null
+    newsResponse:null
 }
 export const NewsContentReducer = (state = INITIAL_STATE, action) =>{
     let newState = {}
 
     switch(action.type) {
-        case "loginResponse":
+        case "newsResponse":
             newState = Object.assign({}, state,action.payload);
             return newState;
         default:
