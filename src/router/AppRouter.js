@@ -5,17 +5,17 @@ import Login from "../components/Login/index";
 import history from "./history";
 
 
- const AppRouter = () => {
-    
-        return (
-        
-            <Routes history={history}>
-                <Route path="/"  element={<Login/>} exact />
-                <Route path="/Dashboard" element={<DashboardScreen/>} />
-            </Routes>
-                
-        )
-    
+const AppRouter = () => {
+
+    return (
+
+        <Routes history={history}>
+            <Route path="/" element={<Login />} exact />
+            <Route path="/Dashboard" element={<DashboardScreen />} />
+        </Routes>
+
+    )
+
 }
 
 export default AppRouter;

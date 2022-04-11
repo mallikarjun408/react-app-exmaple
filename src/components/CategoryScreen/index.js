@@ -19,7 +19,7 @@ const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'LanguageName', headerName: 'Language', width: 160 },
     { field: 'Category', headerName: 'Category', width: 160 },
-    { field: 'Image', headerName: 'Image', image: "image URL", type: 'image', description: '', sortable: false, width: 160 , renderCell: (params) => <img src={params.value} />},
+    { field: 'Image', headerName: 'Image', image: "image URL", type: 'image', description: '', sortable: false, width: 160, renderCell: (params) => <img src={params.value} /> },
     { field: 'SampleScript', headerName: 'SampleScript', description: '', sortable: false, width: 160 },
     { field: 'Status', headerName: 'Status', description: '', sortable: false, width: 160 },
 ];
@@ -75,24 +75,7 @@ export default function CategoryScreen() {
         <div className="Container">
             <div className="addButton"> <button onClick={() => { setOpen(true) }}>Add Category</button></div>
             <div className="InnerContainer">
-                <header className="HeaderContainer"> Languages List
-                    <div className="floatRight">
-                        {numSelected > 0 ? (
-                            <Tooltip title="Delete">
-                                <IconButton>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                        ) : (
-                            <Tooltip title="Filter list">
-                                <IconButton>
-                                    <FilterListIcon />
-                                </IconButton>
-                            </Tooltip>
-                        )}
-                    </div>
-
-                </header>
+                <label className="itemHeader">Category List</label>
                 {!addCategory ? <DataGrid
                     className="gridWidth"
                     rows={categoryList}

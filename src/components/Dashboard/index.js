@@ -15,6 +15,9 @@ import SubCategoriesScreen from '../SubCategoriesScreen';
 import ReportersScreen from '../ReportersScreen';
 import HomeScreen from '../HomeScreen';
 import NewsContentsScreen from '../NewsContentsScreen';
+import { useNavigate } from 'react-router-dom';
+import AlertDialog from '../Utils/confirmAlert';
+
 
 
 
@@ -33,6 +36,8 @@ export default function DashboardScreen() {
     }
 
   const [screenName, setScreenName] = useState('Dashboard');
+  const [showLogout, setLogout] = useState(false)
+  let navigate = useNavigate();
 
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
@@ -84,11 +89,21 @@ export default function DashboardScreen() {
     )
   }
 
+  const onBtnPress  =(val)=>{
+    setLogout(false)
+    if(val){
+      navigate('/')
+    }
+
+  }
   return (
+   
     <div>
       <header className='header border-bottom-0'>
         <img className='floatLeft' src={headernews} alt="HeaderNews" />
-        <img className='floatRight' src={avtar} alt="avtar" />
+       <div className='floatheaderRight'>
+       <Person className='header_profileIcon' onClick={()=>{setLogout(true)}}/>
+       </div>
       </header>
       <div style={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
         <div style={{ display: 'flex', flexDirection: 'column', flex: 2, backgroundColor: '#FAF9F6', height: '100vh', borderColor: 'red', borderWidth: 1 }}>
@@ -98,6 +113,7 @@ export default function DashboardScreen() {
           {onTapRenderScreen()}
         </div>
       </div>
+      <AlertDialog showAlert={showLogout} title={"Logout"} desc={"user will logout and redirects to Login Page"} btnHandle = {onBtnPress}/>
     </div>
   )
 }

@@ -50,7 +50,7 @@ export default function NewsContentScreen() {
     const [newsList, setNewsList] = useState(newsData || [])
     const dispatch = useDispatch()
     const mJson = {};
-    const [ imgList, setImageList] = useState(mJson)
+    const [imgList, setImageList] = useState(mJson)
 
     useEffect(() => {
         fetchNewsList()
@@ -59,19 +59,19 @@ export default function NewsContentScreen() {
     const fetchNewsList = async () => {
         console.log("fetchNewsList .....")
         const response = await DataStore.query(NewsTable);
-         console.log(response)
+        console.log(response)
         dispatch({ type: "newsResponse", payload: response })
         // response.map(i=>console.log(i.LanguageName));
-        response.map(async(item,index) => {
+        response.map(async (item, index) => {
             console.log(item)
             const img = item.Image;
             const url = await Storage.get(img)
-            mJson[""+img] = url
+            mJson["" + img] = url
 
-            if(index == response.length-1){
+            if (index == response.length - 1) {
                 setImageList(mJson)
             }
-            
+
         })
 
 
@@ -93,24 +93,7 @@ export default function NewsContentScreen() {
         <div className="Container">
             <div className="addButton"> <button onClick={() => { setAddNewsWidget(true) }}>Add News</button></div>
             <div className="InnerContainer">
-                <header className="HeaderContainer"> News List
-                    <div className="floatRight">
-                        {numSelected > 0 ? (
-                            <Tooltip title="Delete">
-                                <IconButton>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                        ) : (
-                            <Tooltip title="Filter list">
-                                <IconButton>
-                                    <FilterListIcon />
-                                </IconButton>
-                            </Tooltip>
-                        )}
-                    </div>
-
-                </header>
+                <label className="itemHeader">News List</label>
                 {!addNewsWidget ? <DataGrid
                     className="gridWidth"
                     rows={newsList}

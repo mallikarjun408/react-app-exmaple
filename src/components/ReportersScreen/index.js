@@ -60,26 +60,13 @@ export default function ReportersScreen() {
         <div className="Container">
              <div className="addButton"> <button onClick={()=>{alert('add new news')}}>Add Reporter</button></div>
             <div className="InnerContainer">
-                <header className="HeaderContainer"> Reporters List
-                    <div className="floatRight">
-                        {numSelected > 0 ? (
-                            <Tooltip title="Delete">
-                                <IconButton>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                        ) : (
-                            <Tooltip title="Filter list">
-                                <IconButton>
-                                    <FilterListIcon />
-                                </IconButton>
-                            </Tooltip>
-                        )}
-                    </div>
+                <label className="itemHeader">Reporters List</label>
+                   
 
-                </header>
-                <DataGrid
-                    className="gridWidth"
+              
+                {/* <DataGrid
+                    
+                    style={{width:'100%'}}
                     rows={rows}
                     columns={columns}
                     pageSize={5}
@@ -88,7 +75,7 @@ export default function ReportersScreen() {
                     hideFooterSelectedRowCount
                     onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
                 // onCellClick={(param) => { alert(alert(param.row.lastName)) }}
-                />
+                /> */}
             </div>
 
 

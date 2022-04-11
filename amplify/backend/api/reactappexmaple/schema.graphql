@@ -13,7 +13,8 @@ type NewsTable @model @auth(rules: [{allow: public}]) {
   RefLink3: String
   isNewsActive: Boolean
   Action: String
-  Comments: String
+  Comments: String,
+  ContentType: String
 }
 
 type NewsCategoryTable @model @auth(rules: [{allow: public}]) {
@@ -22,7 +23,7 @@ type NewsCategoryTable @model @auth(rules: [{allow: public}]) {
   Category: String
   SampleScript: String
   Image: String
-  Status: String
+  Status: Boolean
   Action: String
   Comments: String
 }

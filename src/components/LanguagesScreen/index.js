@@ -56,7 +56,7 @@ export default function LanguagesScreen() {
         bgcolor: 'white',
         border: '2px solid #000',
         boxShadow: 24,
-        width:'50%',
+        width: '50%',
         p: 4,
     };
 
@@ -66,22 +66,22 @@ export default function LanguagesScreen() {
 
     const dispatch = useDispatch();
 
-    const languageReducer = useSelector(state=>state.LanguageReducer)
+    const languageReducer = useSelector(state => state.LanguageReducer)
     const languagesList = languageReducer?.languagesResponse
 
     const [languages, setLanguages] = useState(languagesList || rows)
 
-    useEffect(()=>{
+    useEffect(() => {
         //dispatch(fetchLanguagesAction)
         fetchLanguages()
-        
-    },[open])
 
-    const fetchLanguages = async() =>{
+    }, [open])
+
+    const fetchLanguages = async () => {
         const response = await DataStore.query(LanguageTable);
-       console.log(response)
+        console.log(response)
         dispatch({ type: "fetchLanguagesAction", payload: response })
-       // response.map(i=>console.log(i.LanguageName));
+        // response.map(i=>console.log(i.LanguageName));
         setLanguages(response)
     }
 
@@ -89,28 +89,13 @@ export default function LanguagesScreen() {
         setOpen(value)
     }
 
+    
+
     return (
         <div className="Container">
-            <div className="addButton"> <button onClick={() => { setOpen(true)}}>Add Language</button></div>
+            <div className="addButton"> <button onClick={() => { setOpen(true) }}>Add Language</button></div>
             <div className="InnerContainer">
-                <header className="HeaderContainer"> Languages List
-                    <div className="floatRight">
-                        {numSelected > 0 ? (
-                            <Tooltip title="Delete">
-                                <IconButton>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                        ) : (
-                            <Tooltip title="Filter list">
-                                <IconButton>
-                                    <FilterListIcon />
-                                </IconButton>
-                            </Tooltip>
-                        )}
-                    </div>
-
-                </header>
+                <label className="itemHeader">Languages List</label>
                 <DataGrid
                     className="gridWidth"
                     rows={languages}
@@ -135,9 +120,6 @@ export default function LanguagesScreen() {
                 </Modal>
 
             </div>
-
-
-
         </div>
     )
 }
