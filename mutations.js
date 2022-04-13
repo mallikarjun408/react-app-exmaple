@@ -22,6 +22,7 @@ export const createNewsTable = /* GraphQL */ `
       isNewsActive
       Action
       Comments
+      ContentType
       createdAt
       updatedAt
       _version
@@ -51,6 +52,7 @@ export const updateNewsTable = /* GraphQL */ `
       isNewsActive
       Action
       Comments
+      ContentType
       createdAt
       updatedAt
       _version
@@ -80,6 +82,7 @@ export const deleteNewsTable = /* GraphQL */ `
       isNewsActive
       Action
       Comments
+      ContentType
       createdAt
       updatedAt
       _version
@@ -284,6 +287,66 @@ export const deleteReporterTable = /* GraphQL */ `
       PrefferenLangugae
       GovtIDType
       GovtIDNumber
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createUserTable = /* GraphQL */ `
+  mutation CreateUserTable(
+    $input: CreateUserTableInput!
+    $condition: ModelUserTableConditionInput
+  ) {
+    createUserTable(input: $input, condition: $condition) {
+      userName
+      password
+      role
+      ActiveStatus
+      timeStamp
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateUserTable = /* GraphQL */ `
+  mutation UpdateUserTable(
+    $input: UpdateUserTableInput!
+    $condition: ModelUserTableConditionInput
+  ) {
+    updateUserTable(input: $input, condition: $condition) {
+      userName
+      password
+      role
+      ActiveStatus
+      timeStamp
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteUserTable = /* GraphQL */ `
+  mutation DeleteUserTable(
+    $input: DeleteUserTableInput!
+    $condition: ModelUserTableConditionInput
+  ) {
+    deleteUserTable(input: $input, condition: $condition) {
+      userName
+      password
+      role
+      ActiveStatus
+      timeStamp
+      id
       createdAt
       updatedAt
       _version

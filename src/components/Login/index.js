@@ -24,7 +24,7 @@ import { Storage } from "@aws-amplify/storage"
 export default function Login() {
 
   //Amplify.configure(awsconfig);
-  
+
 
 
   const [userName, setUserName] = useState('')
@@ -33,82 +33,56 @@ export default function Login() {
 
   const dispatch = useDispatch();
 
+  const validateCredentials = async () => {
 
-  const toggleTheme = async () => {
+    // const rr = await API.graphql(graphqlOperation(createLanguageTable, { input: { LanguageName: "English", SampleScript:"This text is in English",ActiveStatus:true } }))
 
-    /*  const mm = await DataStore.save(
-        new ReporterTable({
-          "FirstName": "Lorem ipsum dolor sit amet",
-          "LastName": "Lorem ipsum dolor sit amet",
-          "EmailID": "Lorem ipsum dolor sit amet",
-          "MobileNumber": "Lorem ipsum dolor sit amet",
-          "Status": true,
-          "Action": "Lorem ipsum dolor sit amet",
-          "JoiningDate": "1970-01-01T12:30:23.999Z",
-          "ActiveTime": "1970-01-01T12:30:23.999Z",
-          "InactiveTime": "1970-01-01T12:30:23.999Z",
-          "Comments": "Lorem ipsum dolor sit amet",
-          "PrefferenLangugae": "Lorem ipsum dolor sit amet",
-          "GovtIDType": "Lorem ipsum dolor sit amet",
-          "GovtIDNumber": "Lorem ipsum dolor sit amet"
-        })
-      );
-      alert(JSON.stringify(mm))
-  */
 
-    try {
-      const posts = await DataStore.query(ReporterTable);
-      console.log("Posts retrieved successfully!", JSON.stringify(posts, null, 2));
-    } catch (error) {
-      console.log("Error retrieving posts", error);
+
+    /*  const allTodos = await API.graphql({ query: queries.getLanguageTable });
+    */
+
+    /*  const list = await Storage.list('')
+    
+     const images = await Promise.all(list.map(async k =>{
+       const signedUrl = await Storage.get(k.key)
+       return signedUrl
+     }))
+     */
+    /* const response =  await Storage.put('test.txt', 'Private Content');
+     */
+
+    let validCredentials = true;
+    if (userName.length == 0) {
+      validCredentials = false;
+
+    } else if (password.length == 0) {
+      validCredentials = false;
     }
 
-    const rr = await API.graphql(graphqlOperation(createLanguageTable, { input: { LanguageName: "English", SampleScript:"This text is in English",ActiveStatus:true } }))
+    if (validCredentials) {
 
-    alert(JSON.stringify(rr))
-  }
+      const response = await API.graphql(graphqlOperation(queries.listUserTables, { filter: { userName: { eq: userName }, password: { eq: password } } }))
 
-  const validateCredentials = async() => {
-    let credentials = {
-      userName: userName,
-      password: password
+      if ((response.data.listUserTables.items).length > 0) {
+        navigate('/Dashboard')
+      } else {
+        alert('Please enter valid Credentials')
+      }
+      console.log(response)
+    }else{
+      alert("Please enter valid Credentials")
     }
-   // const rr = await API.graphql(graphqlOperation(createLanguageTable, { input: { LanguageName: "English", SampleScript:"This text is in English",ActiveStatus:true } }))
-
-    //alert(JSON.stringify(rr))
-
-   /*  const allTodos = await API.graphql({ query: queries.getLanguageTable });
-    alert(allTodos)
-    console.log(allTodos);  */
+    // 
 
 
- 
-
-
-/*  const list = await Storage.list('')
-
- const images = await Promise.all(list.map(async k =>{
-   const signedUrl = await Storage.get(k.key)
-   return signedUrl
- }))
-
- console.log(images)
-  
-console.log("image list",list) */
-  /* const response =  await Storage.put('test.txt', 'Private Content');
-
-console.log(response)   */
-
-   navigate('/Dashboard')
-
-
-/* 
-    try {
-    const posts = await DataStore.query(LanguageTable);
-    console.log("Posts retrieved successfully!", JSON.stringify(posts, null, 2));
-  } catch (error) {
-    console.log("Error retrieving posts", error);
-  }  */
+    /* 
+        try {
+        const posts = await DataStore.query(LanguageTable);
+        console.log("Posts retrieved successfully!", JSON.stringify(posts, null, 2));
+      } catch (error) {
+        console.log("Error retrieving posts", error);
+      }  */
 
     // APIHandler.postData("login","POST",credentials,loginResponse);
   }

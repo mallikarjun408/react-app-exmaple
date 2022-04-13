@@ -51,3 +51,11 @@ type ReporterTable @model @auth(rules: [{allow: public}]) {
   GovtIDType: String
   GovtIDNumber: String
 }
+
+type UserTable @model @auth(rules: [{allow: public}]) {
+  userName: String
+  password: String
+  role: String
+  ActiveStatus: Boolean
+  timeStamp: AWSDateTime
+}

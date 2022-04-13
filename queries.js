@@ -19,6 +19,7 @@ export const getNewsTable = /* GraphQL */ `
       isNewsActive
       Action
       Comments
+      ContentType
       createdAt
       updatedAt
       _version
@@ -50,6 +51,7 @@ export const listNewsTables = /* GraphQL */ `
         isNewsActive
         Action
         Comments
+        ContentType
         createdAt
         updatedAt
         _version
@@ -90,6 +92,7 @@ export const syncNewsTables = /* GraphQL */ `
         isNewsActive
         Action
         Comments
+        ContentType
         createdAt
         updatedAt
         _version
@@ -337,6 +340,79 @@ export const syncReporterTables = /* GraphQL */ `
         PrefferenLangugae
         GovtIDType
         GovtIDNumber
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getUserTable = /* GraphQL */ `
+  query GetUserTable($id: ID!) {
+    getUserTable(id: $id) {
+      userName
+      password
+      role
+      ActiveStatus
+      timeStamp
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listUserTables = /* GraphQL */ `
+  query ListUserTables(
+    $filter: ModelUserTableFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserTables(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        userName
+        password
+        role
+        ActiveStatus
+        timeStamp
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncUserTables = /* GraphQL */ `
+  query SyncUserTables(
+    $filter: ModelUserTableFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUserTables(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        userName
+        password
+        role
+        ActiveStatus
+        timeStamp
+        id
         createdAt
         updatedAt
         _version

@@ -20,6 +20,10 @@ type ReporterTableMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
+type UserTableMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
 export declare class NewsTable {
   readonly id: string;
   readonly NewsDate?: string | null;
@@ -36,6 +40,7 @@ export declare class NewsTable {
   readonly isNewsActive?: boolean | null;
   readonly Action?: string | null;
   readonly Comments?: string | null;
+  readonly ContentType?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<NewsTable, NewsTableMetaData>);
@@ -48,7 +53,7 @@ export declare class NewsCategoryTable {
   readonly Category?: string | null;
   readonly SampleScript?: string | null;
   readonly Image?: string | null;
-  readonly Status?: string | null;
+  readonly Status?: boolean | null;
   readonly Action?: string | null;
   readonly Comments?: string | null;
   readonly createdAt?: string | null;
@@ -87,4 +92,17 @@ export declare class ReporterTable {
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<ReporterTable, ReporterTableMetaData>);
   static copyOf(source: ReporterTable, mutator: (draft: MutableModel<ReporterTable, ReporterTableMetaData>) => MutableModel<ReporterTable, ReporterTableMetaData> | void): ReporterTable;
+}
+
+export declare class UserTable {
+  readonly id: string;
+  readonly userName?: string | null;
+  readonly password?: string | null;
+  readonly role?: string | null;
+  readonly ActiveStatus?: boolean | null;
+  readonly timeStamp?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<UserTable, UserTableMetaData>);
+  static copyOf(source: UserTable, mutator: (draft: MutableModel<UserTable, UserTableMetaData>) => MutableModel<UserTable, UserTableMetaData> | void): UserTable;
 }

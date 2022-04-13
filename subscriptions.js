@@ -19,6 +19,7 @@ export const onCreateNewsTable = /* GraphQL */ `
       isNewsActive
       Action
       Comments
+      ContentType
       createdAt
       updatedAt
       _version
@@ -45,6 +46,7 @@ export const onUpdateNewsTable = /* GraphQL */ `
       isNewsActive
       Action
       Comments
+      ContentType
       createdAt
       updatedAt
       _version
@@ -71,6 +73,7 @@ export const onDeleteNewsTable = /* GraphQL */ `
       isNewsActive
       Action
       Comments
+      ContentType
       createdAt
       updatedAt
       _version
@@ -248,6 +251,57 @@ export const onDeleteReporterTable = /* GraphQL */ `
       PrefferenLangugae
       GovtIDType
       GovtIDNumber
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateUserTable = /* GraphQL */ `
+  subscription OnCreateUserTable {
+    onCreateUserTable {
+      userName
+      password
+      role
+      ActiveStatus
+      timeStamp
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateUserTable = /* GraphQL */ `
+  subscription OnUpdateUserTable {
+    onUpdateUserTable {
+      userName
+      password
+      role
+      ActiveStatus
+      timeStamp
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteUserTable = /* GraphQL */ `
+  subscription OnDeleteUserTable {
+    onDeleteUserTable {
+      userName
+      password
+      role
+      ActiveStatus
+      timeStamp
+      id
       createdAt
       updatedAt
       _version

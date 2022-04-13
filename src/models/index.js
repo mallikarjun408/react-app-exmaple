@@ -4,11 +4,12 @@ import { schema } from './schema';
 
 
 
-const { NewsTable, NewsCategoryTable, LanguageTable, ReporterTable } = initSchema(schema);
+const { NewsTable, NewsCategoryTable, LanguageTable, ReporterTable, UserTable } = initSchema(schema);
 
 export {
   NewsTable,
   NewsCategoryTable,
   LanguageTable,
-  ReporterTable
+  ReporterTable,
+  UserTable
 };
