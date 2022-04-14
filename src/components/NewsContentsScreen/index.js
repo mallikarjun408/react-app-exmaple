@@ -33,12 +33,28 @@ export default function NewsContentScreen() {
         { field: 'ContentType', headerName: 'Content Type', width: 160 },
         { field: 'NewsTitle', headerName: 'Title', width: 160 },
         { field: 'NewsBody', headerName: 'Description', width: 160 },
-        { field: 'Image', headerName: 'Image', width: 160, renderCell: (params) => <img src={imgList[params.value]}></img> },
+        { field: 'Image', headerName: 'Image', width: 160, renderCell: (params) => <img style={{ width: 100, height: 70, padding:2, backgroundColor:'red' }} src={imgList[params.value]}></img> },
         { field: 'Video', headerName: 'Video', width: 160 },
         { field: 'RefLink1', headerName: 'RefLink1', description: '', sortable: false, width: 160 },
         { field: 'RefLink2', headerName: 'RefLink2', description: '', sortable: false, width: 160 },
         { field: 'RefLink3', headerName: 'RefLink3', description: '', sortable: false, width: 160 },
         { field: 'isNewsActive', headerName: 'isActive', description: '', sortable: false, width: 160 },
+        {
+            field: 'action',
+            headerName: 'Action',
+            description: '',
+            sortable: false,
+            width: 160,
+            renderCell: (params) => <img style={{ width: 20, height: 20 }} src={require("../../assets/images/edit_icon.png")} />
+        },
+        {
+            field: 'delete',
+            headerName: 'Delete',
+            description: '',
+            sortable: false,
+            width: 160,
+            renderCell: (params) => <img style={{ width: 20, height: 20 }} src={require("../../assets/images/red_trash_icon.png")} />
+        },
     ];
 
 
@@ -53,7 +69,7 @@ export default function NewsContentScreen() {
     const [imgList, setImageList] = useState(mJson)
 
     useEffect(() => {
-        fetchNewsList()
+        setTimeout(() => fetchNewsList(), 1000)
     }, [addNewsWidget])
 
     const fetchNewsList = async () => {
@@ -81,10 +97,19 @@ export default function NewsContentScreen() {
     const btnCloseAddNewsWidget = () => {
         setAddNewsWidget(false);
     }
-    const fetImage = async (fileName) => {
-        //  const upload = await Storage.put(fileName, filePath)
-        const signedUrl = await Storage.get(fileName)
-        return signedUrl
+
+    const onTableCellClick = (param) => {
+        if (param.field == 'action') {
+            console.log(param.row)
+            // setEditData(param.row)
+            // setOpen(true)
+        }
+        else if (param.field == 'delete') {
+            console.log(param.row)
+            // setEditData(param.row)
+            //setShowAlert(true)
+
+        }
     }
 
 
@@ -102,8 +127,8 @@ export default function NewsContentScreen() {
                     rowsPerPageOptions={[5]}
                     isRowSelectable={false}
                     hideFooterSelectedRowCount
-                    onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
-                // onCellClick={(param) => { alert(alert(param.row.lastName)) }}
+                    // onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
+                    onCellClick={(param) => { onTableCellClick(param) }}
                 /> : <AddNews closeNewsWidget={btnCloseAddNewsWidget}></AddNews>}
             </div>
 

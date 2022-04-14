@@ -3,25 +3,48 @@ import "../CategoryScreen/category.css";
 
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API, DataStore, graphqlOperation } from 'aws-amplify';
 import { createLanguageTable, deleteLanguageTable, updateLanguageTable } from '../../graphQLQuaries/mutations';
+import { LanguageTable } from "../../models";
 
 
 const options = [
     'active', 'not active'
 ];
 
-export default function AddLanguage({ handleClose }) {
+export default function AddLanguage({ handleClose, editData }) {
 
-    const [languageName, setLanguageName] = useState("");
-    const [sampleScript, setSampleScript] = useState("");
-    const [activeStatus, setActiveStatus] = useState();
+    const [languageName, setLanguageName] = useState(editData?.LanguageName || "");
+    const [sampleScript, setSampleScript] = useState(editData?.SampleScript || "");
+    const [activeStatus, setActiveStatus] = useState(editData?.ActiveStatus || true);
     const [showAlert, setShowAlert] = useState(false)
+    const defaultVal = (editData?.ActiveStatus) ? options[0] : options[1]
 
     const addLanguageSubmit = async () => {
-        const input = { LanguageName: languageName, SampleScript: sampleScript, ActiveStatus: activeStatus }
+        const input = { id: editData?.id, LanguageName: languageName, SampleScript: sampleScript, ActiveStatus: activeStatus, _version: editData?._version }
         if (validateInput(input)) {
-            const response = await API.graphql(graphqlOperation(createLanguageTable, { input: input }))
+            if (editData?.id || false) {
+                const response = await API.graphql(graphqlOperation(updateLanguageTable, { input: input }))
+                console.log(response)
+                /* Models in DataStore are immutable. To update a record you must use the copyOf function
+                 to apply updates to the item’s fields rather than mutating the instance directly */
+                /* const update =  await DataStore.save(LanguageTable.copyOf(CURRENT_ITEM, item => {
+                     // Update the values on {item} variable to update DataStore entry
+                     if (item.id == editData?.id) {
+                         item.ActiveStatus = activeStatus
+                         item.LanguageName = languageName
+                         item.SampleScript = sampleScript
+                     }
+                 }));
+ 
+                 console.log(update) */
+
+
+
+
+            } else {
+                const response = await API.graphql(graphqlOperation(createLanguageTable, { input: input }))
+            }
             handleClose(false)
         }
         else { alert("Please enter valid data") }
@@ -55,7 +78,7 @@ export default function AddLanguage({ handleClose }) {
 
             <div>
                 <div className="titleContainer"><label className="labelStyle">Status</label>
-                    <Dropdown className="dropdownStyle" options={options} onChange={(e) => { setActiveStatus(e.value == 'active' ? 1 : 0) }} value={0} placeholder="Select an option" />
+                    <Dropdown className="dropdownStyle" options={options} onChange={(e) => { setActiveStatus(e.value == 'active' ? 1 : 0) }} value={defaultVal} placeholder="Select an option" />
                 </div>
             </div>
 

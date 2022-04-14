@@ -70,7 +70,7 @@ export default function Login() {
         alert('Please enter valid Credentials')
       }
       console.log(response)
-    }else{
+    } else {
       alert("Please enter valid Credentials")
     }
     // 

@@ -15,6 +15,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLanguagesAction } from "../../redux/actions/languagesActions";
 import { DataStore } from '@aws-amplify/datastore';
 import { LanguageTable } from '../../models';
+import { API, graphqlOperation } from 'aws-amplify';
+import { deleteLanguageTable } from "../../graphQLQuaries/mutations";
+import AlertDialog from "../Utils/confirmAlert";
+
 
 
 
@@ -35,7 +39,16 @@ const columns = [
         headerName: 'Action',
         description: '',
         sortable: false,
-        width: 160
+        width: 160,
+        renderCell: (params) => <img style={{ width: 20, height: 20 }} src={require("../../assets/images/edit_icon.png")} />
+    },
+    {
+        field: 'delete',
+        headerName: 'Delete',
+        description: '',
+        sortable: false,
+        width: 160,
+        renderCell: (params) => <img style={{ width: 20, height: 20 }} src={require("../../assets/images/red_trash_icon.png")} />
     },
 ];
 
@@ -70,16 +83,18 @@ export default function LanguagesScreen() {
     const languagesList = languageReducer?.languagesResponse
 
     const [languages, setLanguages] = useState(languagesList || rows)
+    const [editData, setEditData] = useState([])
+    const [showAlert, setShowAlert] = useState(false)
 
     useEffect(() => {
         //dispatch(fetchLanguagesAction)
-        fetchLanguages()
+        setTimeout(() => fetchLanguages(), 1000)
 
-    }, [open])
+    }, [open, showAlert])
 
     const fetchLanguages = async () => {
         const response = await DataStore.query(LanguageTable);
-        console.log(response)
+        console.log("fetchLanguagesAction", response)
         dispatch({ type: "fetchLanguagesAction", payload: response })
         // response.map(i=>console.log(i.LanguageName));
         setLanguages(response)
@@ -89,11 +104,31 @@ export default function LanguagesScreen() {
         setOpen(value)
     }
 
-    
+    const onTableCellClick = (param) => {
+        if (param.field == 'action') {
+            console.log(param.row)
+            setEditData(param.row)
+            setOpen(true)
+        }
+        else if (param.field == 'delete') {
+            console.log(param.row)
+            setEditData(param.row)
+            setShowAlert(true)
+
+        }
+    }
+    const onBtnPress = async (val) => {
+        setShowAlert(false)
+        if (val) {
+            const response = await API.graphql(graphqlOperation(deleteLanguageTable, { input: { id: editData.id, _version: editData._version } }))
+            console.log(response)
+        }
+    }
+
 
     return (
         <div className="Container">
-            <div className="addButton"> <button onClick={() => { setOpen(true) }}>Add Language</button></div>
+            <div className="addButton"> <button onClick={() => { setEditData([]); setOpen(true) }}>Add Language</button></div>
             <div className="InnerContainer">
                 <label className="itemHeader">Languages List</label>
                 <DataGrid
@@ -104,8 +139,8 @@ export default function LanguagesScreen() {
                     rowsPerPageOptions={[5]}
                     isRowSelectable={false}
                     hideFooterSelectedRowCount
-                    onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
-                // onCellClick={(param) => { alert(alert(param.row.lastName)) }}
+                    //  onRowClick={(params, events, details) => { alert(JSON.stringify(params.row)) }}
+                    onCellClick={(param) => { onTableCellClick(param) }}
                 />
                 <Modal
                     open={open}
@@ -115,9 +150,10 @@ export default function LanguagesScreen() {
                 >
 
                     <Box sx={style}>
-                        <AddLanguage handleClose={handleClose} />
+                        <AddLanguage handleClose={handleClose} editData={editData} />
                     </Box>
                 </Modal>
+                <AlertDialog showAlert={showAlert} title={"Delete !"} desc={"Are you sure to delete the entry ?"} btnHandle={onBtnPress} />
 
             </div>
         </div>

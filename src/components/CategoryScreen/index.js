@@ -22,6 +22,22 @@ const columns = [
     { field: 'Image', headerName: 'Image', image: "image URL", type: 'image', description: '', sortable: false, width: 160, renderCell: (params) => <img src={params.value} /> },
     { field: 'SampleScript', headerName: 'SampleScript', description: '', sortable: false, width: 160 },
     { field: 'Status', headerName: 'Status', description: '', sortable: false, width: 160 },
+    {
+        field: 'action',
+        headerName: 'Action',
+        description: '',
+        sortable: false,
+        width: 160,
+        renderCell: (params) => <img style={{ width: 20, height: 20 }} src={require("../../assets/images/edit_icon.png")} />
+    },
+    {
+        field: 'delete',
+        headerName: 'Delete',
+        description: '',
+        sortable: false,
+        width: 160,
+        renderCell: (params) => <img style={{ width: 20, height: 20 }} src={require("../../assets/images/red_trash_icon.png")} />
+    },
 ];
 
 const rows = [
@@ -55,7 +71,7 @@ export default function CategoryScreen() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchCategoryList()
+        setTimeout(() => fetchCategoryList(), 1000)
     }, [open])
 
     const fetchCategoryList = async () => {
@@ -71,6 +87,20 @@ export default function CategoryScreen() {
         setOpen(value)
     }
 
+    const onTableCellClick = (param) => {
+        if (param.field == 'action') {
+            console.log(param.row)
+            // setEditData(param.row)
+            // setOpen(true)
+        }
+        else if (param.field == 'delete') {
+            console.log(param.row)
+            // setEditData(param.row)
+            //setShowAlert(true)
+
+        }
+    }
+
     return (
         <div className="Container">
             <div className="addButton"> <button onClick={() => { setOpen(true) }}>Add Category</button></div>
@@ -84,8 +114,8 @@ export default function CategoryScreen() {
                     rowsPerPageOptions={[5]}
                     isRowSelectable={false}
                     hideFooterSelectedRowCount
-                    onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
-                // onCellClick={(param) => { alert(alert(param.row.lastName)) }}
+                    //  onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
+                    onCellClick={(param) => { onTableCellClick(param) }}
                 /> : <AddCategory />}
 
 
