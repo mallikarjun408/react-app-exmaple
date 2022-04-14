@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNewsTable } from "../../graphQLQuaries/queries";
 
 import { API, graphqlOperation } from "aws-amplify";
+import AlertDialog from "../Utils/confirmAlert";
+import { deleteNewsTable } from "../../graphQLQuaries/mutations";
 
 
 const rows = [
@@ -67,10 +69,12 @@ export default function NewsContentScreen() {
     const dispatch = useDispatch()
     const mJson = {};
     const [imgList, setImageList] = useState(mJson)
+    const [editData, setEditData] = useState([])
+    const [showAlert, setShowAlert] = useState(false)
 
     useEffect(() => {
         setTimeout(() => fetchNewsList(), 1000)
-    }, [addNewsWidget])
+    }, [addNewsWidget, showAlert])
 
     const fetchNewsList = async () => {
         console.log("fetchNewsList .....")
@@ -101,22 +105,30 @@ export default function NewsContentScreen() {
     const onTableCellClick = (param) => {
         if (param.field == 'action') {
             console.log(param.row)
-            // setEditData(param.row)
-            // setOpen(true)
+            setEditData(param.row)
+            setAddNewsWidget(true)
         }
         else if (param.field == 'delete') {
             console.log(param.row)
-            // setEditData(param.row)
-            //setShowAlert(true)
+            setEditData(param.row)
+            setShowAlert(true)
 
         }
     }
 
+    const onBtnPress = async (val) => {
+
+        if (val) {
+            const response = await API.graphql(graphqlOperation(deleteNewsTable, { input: { id: editData.id, _version: editData._version } }))
+            console.log(response)
+        }
+        setShowAlert(false)
+    }
 
 
     return (
         <div className="Container">
-            <div className="addButton"> <button onClick={() => { setAddNewsWidget(true) }}>Add News</button></div>
+            <div className="addButton"> <button onClick={() => { setEditData([]); setAddNewsWidget(true) }}>Add News</button></div>
             <div className="InnerContainer">
                 <label className="itemHeader">News List</label>
                 {!addNewsWidget ? <DataGrid
@@ -129,11 +141,9 @@ export default function NewsContentScreen() {
                     hideFooterSelectedRowCount
                     // onRowClick={(params, events, details) => { alert(JSON.stringify(params.row.lastName)) }}
                     onCellClick={(param) => { onTableCellClick(param) }}
-                /> : <AddNews closeNewsWidget={btnCloseAddNewsWidget}></AddNews>}
+                /> : <AddNews closeNewsWidget={btnCloseAddNewsWidget} editData = {editData}></AddNews>}
             </div>
-
-
-
+            <AlertDialog showAlert={showAlert} title={"Delete !"} desc={"Are you sure to delete the entry ?"} btnHandle={onBtnPress} />
         </div>
     )
 }

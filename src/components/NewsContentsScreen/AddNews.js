@@ -7,7 +7,9 @@ import { Storage } from "@aws-amplify/storage"
 
 import { useDispatch, useSelector } from "react-redux";
 import { API, graphqlOperation } from "aws-amplify";
-import { createNewsTable } from "../../graphQLQuaries/mutations";
+import { createNewsTable, updateNewsTable } from "../../graphQLQuaries/mutations";
+
+
 
 const options = [
     'Image', 'Video'
@@ -18,9 +20,9 @@ const status_options = [
 
 const reporterOptions = ["admin"]
 
-export default function AddNews({ closeNewsWidget }) {
+export default function AddNews({ closeNewsWidget, editData }) {
 
-    const defaultOption = 0;
+
 
     const languageReducer = useSelector(state => state.LanguageReducer)
     const languagesList = languageReducer?.languagesResponse
@@ -31,26 +33,27 @@ export default function AddNews({ closeNewsWidget }) {
     const categories = categoryReducer?.categoryResponse
     const [categoryList, setCategoryList] = useState(categories || [])
 
-    const [languageName, setLanguageName] = useState("")
-    const [categoryName, setCategoryName] = useState("")
-    const [reporterName, setReporterName] = useState("")
+    const [languageName, setLanguageName] = useState(editData?.Language || "")
+    const [categoryName, setCategoryName] = useState(editData?.Category || "")
+    const [reporterName, setReporterName] = useState("admin")
     const [contentType, setContentType] = useState("")
-    const [newsTitle, setNewsTitle] = useState("")
-    const [newsContent, setNewsContent] = useState("")
-    const [videoFile, setVideoFile] = useState(null)
+    const [newsTitle, setNewsTitle] = useState(editData?.NewsTitle || "")
+    const [newsContent, setNewsContent] = useState(editData?.NewsBody || "")
+    const [videoFile, setVideoFile] = useState(editData?.Video || null)
 
-    const [refLink1, setRefLink1] = useState(null)
-    const [refLink2, setRefLink2] = useState(null)
-    const [refLink3, setRefLink3] = useState(null)
+    const [refLink1, setRefLink1] = useState(editData?.RefLink1 || null)
+    const [refLink2, setRefLink2] = useState(editData?.RefLink2 || null)
+    const [refLink3, setRefLink3] = useState(editData?.RefLink3 || null)
 
-    const [filePath, setFilePath] = useState(null)
-    const [fileName, setFileName] = useState("sample.png")
+    const [filePath, setFilePath] = useState(editData?.Image || null)
+    const [fileName, setFileName] = useState(editData?.Image || null)
 
 
-    const [activeStatus, setActiveStatus] = useState();
+    const [activeStatus, setActiveStatus] = useState(editData?.isNewsActive || null);
 
     const inputFile = useRef(<img />)
-
+    const defaultActiveOption = editData?.isNewsActive ? status_options[0] : 0;
+    const defaultContentOption = editData?.Image ? options[0] : 0;
 
     const getLangusges = () => {
         return languages.map((item) => { return item.LanguageName })
@@ -61,36 +64,60 @@ export default function AddNews({ closeNewsWidget }) {
 
     const submitAddNews = async () => {
 
-        const mDate = new Date();
-        let date = mDate.getDate()+"/"+mDate.getMonth()+"/"+mDate.getFullYear()
-        const newsDetails = {
-            Language: languageName,
-            Category: categoryName,
-            ReporterName: reporterName,
-            NewsTitle: newsTitle,
-            NewsBody: newsContent,
-            Image: filePath,
-            Video: videoFile,
-            RefLink1: refLink1,
-            RefLink2: refLink2,
-            RefLink3: refLink3,
-            isNewsActive: activeStatus,
-            Action: "",
-            Comments: "",
-            NewsDate: new Date().toISOString()
-        }
+        if (editData?.Language) {
+            const newsDetails = {
+                id:editData?.id,
+                Language: languageName,
+                Category: categoryName,
+                ReporterName: reporterName,
+                NewsTitle: newsTitle,
+                NewsBody: newsContent,
+                Image: fileName,
+                Video: videoFile,
+                RefLink1: refLink1,
+                RefLink2: refLink2,
+                RefLink3: refLink3,
+                isNewsActive: activeStatus,
+                Action: "",
+                Comments: "",
+                NewsDate: new Date().toISOString(),
+                _version: editData?._version
+            }
 
-        if (validateInput(newsDetails)) {
-            const upload = await Storage.put(fileName, filePath)
-          //  const signedUrl = await Storage.get(upload.key)
-          //  console.log(signedUrl)
-            if (true) {
+            const response = await API.graphql(graphqlOperation(updateNewsTable, { input: newsDetails }))
+            closeNewsWidget(false)
+
+
+        } else {
+            const newsDetails = {
+                Language: languageName,
+                Category: categoryName,
+                ReporterName: reporterName,
+                NewsTitle: newsTitle,
+                NewsBody: newsContent,
+                Image: filePath,
+                Video: videoFile,
+                RefLink1: refLink1,
+                RefLink2: refLink2,
+                RefLink3: refLink3,
+                isNewsActive: activeStatus,
+                Action: "",
+                Comments: "",
+                NewsDate: new Date().toISOString()
+            }
+
+            if (validateInput(newsDetails)) {
+                const upload = await Storage.put(fileName, filePath)
+                //  const signedUrl = await Storage.get(upload.key)
+                //  console.log(signedUrl)
+
                 newsDetails.Image = fileName //signedUrl
                 const response = await API.graphql(graphqlOperation(createNewsTable, { input: newsDetails }))
                 closeNewsWidget()
+
+            } else {
+                alert("Please enter valid data")
             }
-        } else {
-            alert("Please enter valid data")
         }
     }
 
@@ -143,27 +170,27 @@ export default function AddNews({ closeNewsWidget }) {
         <div className="addNewsContainer">
             <div>
                 <div className="alignLeft"><label className="labelStyle"> Select Langugae</label>
-                    <Dropdown className="dropdownStyle" options={getLangusges()} onChange={(e) => { setLanguageName(e.value) }} value={defaultOption} placeholder="Select an option" />
+                    <Dropdown className="dropdownStyle" options={getLangusges()} onChange={(e) => { setLanguageName(e.value) }} value={editData?.Language || 0} placeholder="Select an option" />
                 </div>
                 <div className="alignRight"> <label className="labelStyle"> Select Category</label>
-                    <Dropdown className="dropdownStyle" options={getCategories()} onChange={(e) => { setCategoryName(e.value) }} value={defaultOption} placeholder="Select an option" />
+                    <Dropdown className="dropdownStyle" options={getCategories()} onChange={(e) => { setCategoryName(e.value) }} value={editData?.Category || 0} placeholder="Select an option" />
                 </div>
             </div>
-            <div>
+            {/*  <div>
                 <div className="alignLeft"><label className="labelStyle"> Sub Category</label>
                     <Dropdown className="dropdownStyle" options={options} disabled={true} onChange={(e) => { }} value={defaultOption} placeholder="Select an option" />
                 </div>
                 <div className="alignRight"> <label className="labelStyle"> Reporter</label>
                     <Dropdown className="dropdownStyle" options={reporterOptions} onChange={(e) => { setReporterName(e.value) }} value={defaultOption} placeholder="Select an option" />
                 </div>
-            </div>
+            </div> */}
             <div>
                 <div className="alignLeft"><label className="labelStyle"> Content Type</label>
-                    <Dropdown className="dropdownStyle" options={options} onChange={(e) => { setContentType(e.value) }} value={defaultOption} placeholder="Select an option" />
+                    <Dropdown className="dropdownStyle" options={options} onChange={(e) => { setContentType(e.value) }} value={defaultContentOption} placeholder="Select an option" />
                 </div>
                 <div className="alignRight"><label className="labelStyle">Status</label>
-                <Dropdown className="dropdownStyle" options={status_options} onChange={(e) => { setActiveStatus(e.value == 'active' ? 1 : 0) }} value={0} placeholder="Select an option" />
-            </div>
+                    <Dropdown className="dropdownStyle" options={status_options} onChange={(e) => { setActiveStatus(e.value == 'active' ? 1 : 0) }} value={defaultActiveOption} placeholder="Select an option" />
+                </div>
 
             </div>
             {contentType ? <><div className="titleContainer">
