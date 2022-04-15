@@ -56,17 +56,20 @@ export default function AddNews({ closeNewsWidget, editData }) {
     const defaultContentOption = editData?.Image ? options[0] : 0;
 
     const getLangusges = () => {
-        return languages.map((item) => { return item.LanguageName })
+        const activeLanguages = languages.filter(element => element.ActiveStatus == true);
+        return activeLanguages.map((item) => {   return item.LanguageName  })
     }
     const getCategories = () => {
-        return categoryList.map((item) => { return item.Category })
+        const activeCategories = languages.filter(element => element.Status == true);
+        
+        return activeCategories.map((item) => { return item.Category})
     }
 
     const submitAddNews = async () => {
 
         if (editData?.Language) {
             const newsDetails = {
-                id:editData?.id,
+                id: editData?.id,
                 Language: languageName,
                 Category: categoryName,
                 ReporterName: reporterName,

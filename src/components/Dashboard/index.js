@@ -19,6 +19,8 @@ import { useNavigate } from 'react-router-dom';
 import AlertDialog from '../Utils/confirmAlert';
 
 
+import history from '../../router/history';
+//import { useHistory } from 'react-router-dom';
 
 
 const menuItems = [
@@ -31,20 +33,26 @@ const menuItems = [
 
 export default function DashboardScreen() {
 
-  const  listItemSelected = {
-      color: 'red',
-    }
+  const listItemSelected = {
+    color: 'red',
+  }
 
   const [screenName, setScreenName] = useState('Dashboard');
   const [showLogout, setLogout] = useState(false)
   let navigate = useNavigate();
+  //const history = useHistory();
 
   useEffect(() => {
+    const isAuth = sessionStorage.getItem("isAuthenticated")
+    if(isAuth !== "true" || isAuth == undefined || isAuth == null){
+      history.push('/');
+      navigate('/')
+    }
     window.history.pushState(null, document.title, window.location.href);
     window.addEventListener('popstate', function (event) {
       window.history.pushState(null, document.title, window.location.href);
-    },[screenName]);
-    
+    }, [screenName]);
+
     console.log('Dashboard loading......')
   })
 
@@ -71,8 +79,8 @@ export default function DashboardScreen() {
 
   const renderListItems = () => {
     const listItems = menuItems.map((item) =>
-      <div  key={item.item}><ListItem   key={item.item} className={screenName == item.item ? 'listItemSelectedColor' : 'listItemColor'} disablePadding key={item.item}>
-        <ListItemButton   onClick={() => { setScreenName(item.item); }}>
+      <div key={item.item}><ListItem key={item.item} className={screenName == item.item ? 'listItemSelectedColor' : 'listItemColor'} disablePadding key={item.item}>
+        <ListItemButton onClick={() => { setScreenName(item.item); }}>
           <ListItemIcon>
             <item.icon />
           </ListItemIcon>
@@ -89,21 +97,23 @@ export default function DashboardScreen() {
     )
   }
 
-  const onBtnPress  =(val)=>{
+  const onBtnPress = (val) => {
     setLogout(false)
-    if(val){
+    if (val) {
+      history.push('/')
       navigate('/')
+      sessionStorage.clear();
     }
 
   }
   return (
-   
+
     <div>
       <header className='header border-bottom-0'>
         <img className='floatLeft' src={headernews} alt="HeaderNews" />
-       <div className='floatheaderRight'>
-       <Person className='header_profileIcon' onClick={()=>{setLogout(true)}}/>
-       </div>
+        <div className='floatheaderRight'>
+          <Person className='header_profileIcon' onClick={() => { setLogout(true) }} />
+        </div>
       </header>
       <div style={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
         <div style={{ display: 'flex', flexDirection: 'column', flex: 2, backgroundColor: '#FAF9F6', height: '100vh', borderColor: 'red', borderWidth: 1 }}>
@@ -113,7 +123,7 @@ export default function DashboardScreen() {
           {onTapRenderScreen()}
         </div>
       </div>
-      <AlertDialog showAlert={showLogout} title={"Logout"} desc={"user will logout and redirects to Login Page"} btnHandle = {onBtnPress}/>
+      <AlertDialog showAlert={showLogout} title={"Logout"} desc={"user will logout and redirects to Login Page"} btnHandle={onBtnPress} />
     </div>
   )
 }

@@ -99,8 +99,9 @@ export default function AddCategory({ handleClose, editData }) {
         }
     }
 
-    const getLangusges = () => {
-        return languages.map((item) => { return item.LanguageName })
+    const getLanguages = () => {
+        const activeLanguages = languages.filter(element => element.ActiveStatus == true);
+        return activeLanguages.map((item) => { return item.LanguageName })
     }
 
     const getScript = (val) => {
@@ -129,7 +130,7 @@ export default function AddCategory({ handleClose, editData }) {
         <div className="addCategoryContainer">
             <div>
                 <div className="titleContainer"><label className="labelStyle"> Select Langugae</label>
-                    <Dropdown className="dropdownStyle" options={getLangusges()} onChange={(e) => { getScript(e.value) }} value={editData?.LanguageName || 0} placeholder="Select an option" />
+                    <Dropdown className="dropdownStyle" options={getLanguages()} onChange={(e) => { getScript(e.value) }} value={editData?.LanguageName || 0} placeholder="Select an option" />
                 </div>
 
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DataStore } from '@aws-amplify/datastore';
 import { LanguageTable, ReporterTable } from '../../models';
 
@@ -25,6 +25,12 @@ export default function Login() {
 
   //Amplify.configure(awsconfig);
 
+  useEffect(() => {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event) {
+      window.history.pushState(null, document.title, window.location.href);
+    }, false);
+  })
 
 
   const [userName, setUserName] = useState('')
@@ -65,6 +71,7 @@ export default function Login() {
       const response = await API.graphql(graphqlOperation(queries.listUserTables, { filter: { userName: { eq: userName }, password: { eq: password } } }))
 
       if ((response.data.listUserTables.items).length > 0) {
+        sessionStorage.setItem("isAuthenticated", "true");
         navigate('/Dashboard')
       } else {
         alert('Please enter valid Credentials')
